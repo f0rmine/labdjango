@@ -1,6 +1,8 @@
 from django.urls import path
-from app_blog import views
+from .views import ArticleListView, ArticleDetailView
 
 urlpatterns = [
-    path('', views.HomePageView.as_view(), name='home'),
+    path('', ArticleListView.as_view(), name='article_list'),  # Усі статті
+    path('category/<slug:category_slug>/', ArticleListView.as_view(), name='articles_by_category'),  # Фільтр за категорією
+    path('article/<slug:slug>/', ArticleDetailView.as_view(), name='article_detail'),  # Деталі статті
 ]

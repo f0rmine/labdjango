@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Список статей</title>
+</head>
+<body>
+    <h1>Список статей</h1>
+
+    <!-- Випадаючий список для категорій -->
+    <form method="get" action="{% url 'article_list' %}">
+        <label for="category">Виберіть категорію:</label>
+        <select name="category_slug" id="category" onchange="this.form.submit()">
+            <option value="">Усі категорії</option>
+            {% for category in categories %}
+                <option value="{{ category.slug }}" {% if category.slug == request.GET.category_slug %}selected{% endif %}>
+                    {{ category.category }}
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+    
+
+    <!-- Список статей -->
+    {% if articles %}
+        <ul>
+            {% for article in articles %}
+                <li>
+                    <a href="{% url 'article_detail' slug=article.slug %}">{{ article.title }}</a>
+                    <p>{{ article.pub_date|date:"d M Y" }}</p>
+                    <p>{{ article.description|truncatechars:100 }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Немає статей для відображення.</p>
+    {% endif %}
+</body>
+</html>
