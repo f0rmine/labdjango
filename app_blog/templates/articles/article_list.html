@@ -1,61 +1,77 @@
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-    <meta charset="UTF-8">
-    <title>Список статей</title>
-</head>
-<body>
-    <h1>Список статей</h1>
+{% extends "base.html" %}
+{% load static %}
 
-    <!-- Випадаючий список для категорій -->
-    <form method="get" action="{% url 'article_list' %}">
-        <label for="category">Виберіть категорію:</label>
-        <select name="category_slug" id="category" onchange="this.form.submit()">
-            <option value="">Усі категорії</option>
-            {% for category in categories %}
-                <option value="{{ category.slug }}" {% if category.slug == request.GET.category_slug %}selected{% endif %}>
-                    {{ category.category }}
-                </option>
-            {% endfor %}
-        </select>
-    </form>
+{% block content %}
+<h1 class="mb-4" style="font-size: 1.5rem;">Публікації</h1> <!-- Зменшений розмір шрифту -->
 
-    <!-- Список статей -->
-    {% if articles %}
-        <ul>
-            {% for article in articles %}
-                <li>
-                    <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
-                    <p>{{ article.pub_date|date:"d M Y" }}</p>
-                    <p>{{ article.description|truncatechars:100 }}</p>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Немає статей для відображення.</p>
-    {% endif %}
+<!-- Випадаючий список для категорій -->
+<form method="get" action="{% url 'article_list' %}" class="mb-4">
+    <label for="category" class="form-label">Виберіть категорію:</label>
+    <select name="category_slug" id="category" class="form-select" onchange="this.form.submit()">
+        <option value="">Усі категорії</option>
+        {% for category in categories %}
+        <option value="{{ category.slug }}" {% if category.slug == request.GET.category_slug %}selected{% endif %}>
+            {{ category.category }}
+        </option>
+        {% endfor %}
+    </select>
+</form>
 
-    <!-- Пагінація -->
-        
-    <div class="pagination">
-        <span class="step-links">
-            {% if page_obj.has_previous %}
-                <a href="?page=1">&laquo; перша</a>
-                <a href="?page={{ page_obj.previous_page_number }}">попередня</a>
-            {% endif %}
-    
-            <span class="current">
+<!-- Список статей -->
+{% if page_obj %}
+<div class="row">
+    {% for article in page_obj %}
+    <div class="col-md-6 mb-4">
+        <div class="card card-fixed-height"> <!-- Додано клас card-fixed-height -->
+            <div class="card-body">
+                <h5 class="card-title">{{ article.title }}</h5>
+                <p class="card-text">{{ article.description|safe|escape|striptags|truncatewords_html:32 }}</p>
+                <a href="{{ article.get_absolute_url }}" class="btn btn-primary">Читати далі</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p class="text-muted">Немає статей для відображення.</p>
+{% endif %}
+
+<!-- Пагінація -->
+{% if page_obj.paginator.num_pages > 1 %}
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page=1" aria-label="Перша">
+                <span aria-hidden="true">&laquo; перша</span>
+            </a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Попередня">
+                <span aria-hidden="true">попередня</span>
+            </a>
+        </li>
+        {% endif %}
+
+        <li class="page-item disabled">
+            <span class="page-link">
                 Сторінка {{ page_obj.number }} з {{ page_obj.paginator.num_pages }}.
             </span>
-    
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">наступна</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}">остання &raquo;</a>
-            {% endif %}
-        </span>
-    </div>
-    
-    
+        </li>
 
-</body>
-</html>
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Наступна">
+                <span aria-hidden="true">наступна</span>
+            </a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Остання">
+                <span aria-hidden="true">остання &raquo;</span>
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+{% endblock %}

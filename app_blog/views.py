@@ -27,9 +27,10 @@ class ArticleDetailView(DetailView):
     context_object_name = 'article'
 
 class HomePageView(TemplateView):
-    template_name = 'articles/index.html'
+    template_name = 'index.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['latest_articles'] = Article.objects.filter(main_page=True)[:5]
+        context['articles'] = Article.objects.all().order_by('-pub_date')[:5]
+        context['categories'] = Category.objects.all()
         return context

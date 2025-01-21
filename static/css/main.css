@@ -1,0 +1,79 @@
+body {
+    background-color: #f8f9fa;
+    font-family: 'Arial', sans-serif;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold; /* Додано жирний шрифт */
+}
+
+h2 {
+    margin-top: 30px;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.card-text {
+    color: #6c757d;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.breadcrumb {
+    background-color: transparent;
+    padding: 0;
+}
+
+.fotorama {
+    margin: 0 auto;
+    max-width: 80%;
+    text-align: center;
+}
+
+.fotorama img {
+    max-height: 400px;
+    width: auto;
+    margin: 0 auto;
+}
+
+/* Додано нові стилі */
+.article-detail-title {
+    font-size: 1.5rem; /* Зменшений розмір шрифту для заголовків статей */
+}
+
+.card-fixed-height {
+    height: 200px; /* Збільшено висоту картки до 300px */
+    overflow: hidden; /* Обрізаємо текст, який не вміщується */
+    display: flex;
+    flex-direction: column;
+}
+
+.card-fixed-height .card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-fixed-height .card-text {
+    flex: 1;
+    overflow: hidden; /* Обрізаємо текст, який не вміщується */
+    margin-bottom: 10px; /* Відступ для кнопки */
+}
