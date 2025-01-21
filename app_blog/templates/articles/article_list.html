@@ -19,14 +19,13 @@
             {% endfor %}
         </select>
     </form>
-    
 
     <!-- Список статей -->
     {% if articles %}
         <ul>
             {% for article in articles %}
                 <li>
-                    <a href="{% url 'article_detail' slug=article.slug %}">{{ article.title }}</a>
+                    <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
                     <p>{{ article.pub_date|date:"d M Y" }}</p>
                     <p>{{ article.description|truncatechars:100 }}</p>
                 </li>
@@ -35,5 +34,28 @@
     {% else %}
         <p>Немає статей для відображення.</p>
     {% endif %}
+
+    <!-- Пагінація -->
+        
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; перша</a>
+                <a href="?page={{ page_obj.previous_page_number }}">попередня</a>
+            {% endif %}
+    
+            <span class="current">
+                Сторінка {{ page_obj.number }} з {{ page_obj.paginator.num_pages }}.
+            </span>
+    
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">наступна</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">остання &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+    
+    
+
 </body>
 </html>

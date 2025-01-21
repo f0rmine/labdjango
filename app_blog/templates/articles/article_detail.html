@@ -4,25 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ article.title }}</title>
+    <!-- Підключення Fotorama -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css" rel="stylesheet">
 </head>
 <body>
     <h1>{{ article.title }}</h1>
     <p><strong>Дата публікації:</strong> {{ article.pub_date|date:"d M Y" }}</p>
     <p><strong>Опис:</strong> {{ article.description }}</p>
 
-    <!-- Зображення статті -->
+    <!-- Галерея Fotorama -->
     {% if article.images.all %}
-        <h3>Зображення:</h3>
-        <ul>
-            {% for image in article.images.all %}
-                <li>
-                    <img src="{{ image.image.url }}" alt="{{ image.title }}" style="max-width:300px;">
-                    <p>{{ image.title }}</p>
-                </li>
-            {% endfor %}
-        </ul>
+    <div class="fotorama" data-nav="thumbs">
+        {% for image in article.images.all %}
+        <img src="{{ image.image.url }}" alt="{{ image.title }}" data-caption="{{ image.title }}">
+        {% endfor %}
+    </div>
     {% endif %}
 
-    <a href="{% url 'article_list' %}">Повернутись до списку</a>
+    <!-- Підключення Fotorama JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script>
+
+    <a href="{% url 'article_list' %}">Повернутись до списку статей</a>
 </body>
 </html>

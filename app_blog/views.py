@@ -1,18 +1,16 @@
-from django.shortcuts import render
-from django.views.generic import TemplateView
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, TemplateView
 from .models import Article, Category
 
 class ArticleListView(ListView):
     model = Article
     template_name = 'articles/article_list.html'
     context_object_name = 'articles'
-    paginate_by = 5
+    paginate_by = 5  # Додано пагінацію
 
     def get_queryset(self):
         queryset = Article.objects.all().order_by('-pub_date')
-        category_slug = self.request.GET.get('category_slug')  # Отримуємо параметр з GET-запиту
+        category_slug = self.request.GET.get('category_slug')
         if category_slug:
             category = get_object_or_404(Category, slug=category_slug)
             queryset = queryset.filter(category=category)
@@ -20,15 +18,18 @@ class ArticleListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categories'] = Category.objects.all()  # Передаємо список категорій у шаблон
+        context['categories'] = Category.objects.all()
         return context
 
-    
 class ArticleDetailView(DetailView):
     model = Article
-    template_name = 'articles/article_detail.html' 
+    template_name = 'articles/article_detail.html'
     context_object_name = 'article'
-    
-#class HomePageView(TemplateView):
-#    def get(self, request, **kwargs):
-#        return render(request, 'index.html', context=None)
+
+class HomePageView(TemplateView):
+    template_name = 'articles/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['latest_articles'] = Article.objects.filter(main_page=True)[:5]
+        return context

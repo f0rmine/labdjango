@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.urls import reverse
 
 class Category(models.Model):
     category = models.CharField(u'Категорія', max_length=250, help_text=u'Максимум 250 символів')
@@ -11,6 +12,9 @@ class Category(models.Model):
 
     def __str__(self):
         return self.category
+
+    def get_absolute_url(self):
+        return reverse('articles_by_category', args=[self.slug])
 
 class Article(models.Model):
     title = models.CharField(u'Заголовок', max_length=250, help_text=u'Максимум 250 символів')
@@ -28,6 +32,10 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('article_detail', args=[self.slug])
+
 class ArticleImage(models.Model):
     article = models.ForeignKey(Article, verbose_name=u'Стаття', related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(u'Фото', upload_to='photos')
