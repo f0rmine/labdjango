@@ -3,16 +3,18 @@
 
 {% block content %}
 
-<h1 class="mb-4 article-detail-title">{{ article.title }}</h1> <!-- Додано клас article-detail-title -->
+<h1 class="mb-4 article-detail-title">{{ article.title }}</h1>
 <p class="text-muted">Опубліковано: {{ article.pub_date|date:"d M Y" }}</p>
 <p>{{ article.description }}</p>
 
 <!-- Галерея Fotorama -->
 {% if article.images.all %}
-<div class="fotorama" data-nav="thumbs" data-autoplay="true">
-    {% for image in article.images.all %}
-    <img src="{{ image.image.url }}" alt="{{ image.title }}" data-caption="{{ image.title }}">
-    {% endfor %}
+<div class="fotorama-wrapper">
+    <div class="fotorama" data-nav="thumbs" data-autoplay="true" data-maxheight="800" data-maxwidth="60%">
+        {% for image in article.images.all %}
+        <img src="{{ image.image.url }}" alt="{{ image.title }}" data-caption="{{ image.title }}">
+        {% endfor %}
+    </div>
 </div>
 {% endif %}
 

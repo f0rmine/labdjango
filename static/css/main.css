@@ -6,7 +6,6 @@ body {
 h1 {
     text-align: center;
     margin-top: 10px;
-    font-weight: bold; /* Додано жирний шрифт */
 }
 
 h2 {
@@ -37,43 +36,10 @@ h2 {
     border-color: #6c757d;
 }
 
-.breadcrumb {
-    background-color: transparent;
-    padding: 0;
-}
-
 .fotorama {
-    margin: 0 auto;
-    max-width: 80%;
-    text-align: center;
-}
-
-.fotorama img {
-    max-height: 400px;
-    width: auto;
-    margin: 0 auto;
-}
-
-/* Додано нові стилі */
-.article-detail-title {
-    font-size: 1.5rem; /* Зменшений розмір шрифту для заголовків статей */
-}
-
-.card-fixed-height {
-    height: 200px; /* Збільшено висоту картки до 300px */
-    overflow: hidden; /* Обрізаємо текст, який не вміщується */
+    margin: 0 auto; 
     display: flex;
-    flex-direction: column;
-}
-
-.card-fixed-height .card-body {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.card-fixed-height .card-text {
-    flex: 1;
-    overflow: hidden; /* Обрізаємо текст, який не вміщується */
-    margin-bottom: 10px; /* Відступ для кнопки */
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }

@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<h1 class="mb-4" style="font-size: 1.5rem;">Публікації</h1> <!-- Зменшений розмір шрифту -->
+<h2 class="mb-4">Публікації</h2>
 
 <!-- Випадаючий список для категорій -->
 <form method="get" action="{% url 'article_list' %}" class="mb-4">
@@ -22,11 +22,11 @@
 <div class="row">
     {% for article in page_obj %}
     <div class="col-md-6 mb-4">
-        <div class="card card-fixed-height"> <!-- Додано клас card-fixed-height -->
-            <div class="card-body">
+        <div class="card h-100 d-flex flex-column"> 
+            <div class="card-body d-flex flex-column">
                 <h5 class="card-title">{{ article.title }}</h5>
-                <p class="card-text">{{ article.description|safe|escape|striptags|truncatewords_html:32 }}</p>
-                <a href="{{ article.get_absolute_url }}" class="btn btn-primary">Читати далі</a>
+                <p class="card-text flex-grow-1">{{ article.description|safe|escape|striptags|truncatewords_html:32 }}</p>
+                <a href="{{ article.get_absolute_url }}" class="btn btn-primary mt-auto">Читати далі</a>
             </div>
         </div>
     </div>
